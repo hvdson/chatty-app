@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Navbar from './Navbar.jsx';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
-import RandomId from './RandomId.js';
+const RandomId = require('./RandomId.js');
 
 class App extends Component {
 
@@ -12,11 +12,11 @@ class App extends Component {
       user: 'Anon1',
       messages: [
       {
-        id: 1,
+        id: 0,
         type: 'system',
         text: 'Anon1 changed their name to nomnom.'
       }, {
-        id: 2,
+        id: 1,
         type: 'user',
         text: 'Dank memes',
         user: 'nomnom'
@@ -27,17 +27,26 @@ class App extends Component {
   // Called after the component was rendered and it was attached to the DOM.
   // This is a good place to make AJAX requests or setTimeout.
   // Guaranteed that DOM elem exists on the page
-  // componentDidMount() {
-  //   // after 3 seconds set loading to false
-  //   setTimeout(() => {
-  //     this.setState({loading: false});
-  //   }, 3000);
-  // }
+  componentDidMount() {
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      // Add a new message to the list of messages in the data store
+      const newMessage = { id: 3, type: 'user', user: 'Michelle', text: 'Hello there!' };
+      const messages = this.state.messages.concat(newMessage)
+      console.log(messages);
+      // Update the state of the app component.
+      // Calling setState will trigger a call to render() in App and all child components.
+      this.setState({ messages: messages })
+    }, 3000);
+  }
+
 
   newMessage(messageText){
+    const newId = RandomId();
 
     const newMessageObj = {
-      id: Math.random(),
+      id: newId,
       type: 'user',
       text: messageText,
       user: this.state.user
@@ -56,7 +65,7 @@ class App extends Component {
   }
 
   render() {
-    console.log("inside <App/> bruh");
+    console.log(this.state);
     return (
       <div>
         <Navbar />
