@@ -29,21 +29,24 @@ class App extends Component {
   // This is a good place to make AJAX requests or setTimeout.
   // Guaranteed that DOM elem exists on the page
   componentDidMount() {
+    // don't need to require - b/c browser has already
     this.socket = new WebSocket('ws://localhost:3001');
 
+    // Similar to wss.on('connection')
+    // wait till connection
     this.socket.onopen = (event) => {
-      // NEEDED TO SEND JSON
-      this.socket.send(JSON.stringify(this.state));
+      // sends JSON to the ws-server
+      console.log('Connected to ws-server');
+      // this.socket.send(JSON.stringify(this.state));
     }
 
     this.socket.onmessage = (event) => {
-      console.log(event.data);
-    }
 
-    // this.socket.onmessage = (event) => {
-    //   console.log(event.data);
-    // }
-    
+      const newMessages = this.state.messages.concat(JSON.parse(event.data));
+      this.setState({
+        messages: newMessages
+      });
+    }
 
     console.log("componentDidMount <App />");
     setTimeout(() => {
@@ -51,7 +54,7 @@ class App extends Component {
       // Add a new message to the list of messages in the data store
       const newMessage = { id: 3, type: 'user', user: 'Michelle', text: 'Hello there!' };
       const messages = this.state.messages.concat(newMessage)
-      
+
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ messages: messages })
@@ -60,19 +63,15 @@ class App extends Component {
 
 
   newMessage(messageText){
-    const newId = RandomId();
-
+    // const newId = RandomId();
     const newMessageObj = {
-      id: newId,
       type: 'user',
       text: messageText,
       user: this.state.user
     }
 
-    const newMessages = this.state.messages.concat(newMessageObj);
-    this.setState({
-      messages: newMessages
-    });
+    // TODO: send to server 1st before adding to msg list
+    this.socket.send(JSON.stringify(newMessageObj));
   }
 
   setUsername(user) {

@@ -21,10 +21,8 @@ const wss = new SocketServer({ server });
 
 // Broadcast to all clients
 wss.broadcast = (data) => {
-
-  data.on('error', (err) => console.log(err));
-
   wss.clients.forEach( (client) => {
+    console.log("sending data to all clients")
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
     }
@@ -32,19 +30,15 @@ wss.broadcast = (data) => {
 };
 
 
-
-// receiveing messages from clients
+// when a new client connects
+// ws is a client (socket)
+// need to add new uuid to the newMessage
 wss.on('connection', (ws) => {
   ws.on('error', (err) => console.log(err));
   ws.on('message', (data) => {
+    console.log(`Received the client data:`, data);
     // Broadcast to everyone else.
-    wss.clients.forEach( (client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        console.log(`Received the client:`);
-        console.log(`sending data!`);
-        client.send(data);
-      }
-    });
+    wss.broadcast(data);
   });
 
   ws.on('close', () => {
