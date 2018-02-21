@@ -13,11 +13,11 @@ class App extends Component {
       user: 'Anon1',
       messages: [
       {
-        id: 0,
+        id: 'poop',
         type: 'system',
         text: 'Anon1 changed their name to nomnom.'
       }, {
-        id: 1,
+        id: 'sick-id-bro',
         type: 'user',
         text: 'Dank memes',
         user: 'nomnom'
@@ -52,7 +52,7 @@ class App extends Component {
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
-      const newMessage = { id: 3, type: 'user', user: 'Michelle', text: 'Hello there!' };
+      const newMessage = { id: 'blahblah-test-id', type: 'user', user: 'Michelle', text: 'Hello there!' };
       const messages = this.state.messages.concat(newMessage)
 
       // Update the state of the app component.
