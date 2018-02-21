@@ -3,6 +3,7 @@ import Navbar from './Navbar.jsx';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 const RandomId = require('./RandomId.js');
+// const WebSocket = require('ws');
 
 class App extends Component {
 
@@ -28,13 +29,29 @@ class App extends Component {
   // This is a good place to make AJAX requests or setTimeout.
   // Guaranteed that DOM elem exists on the page
   componentDidMount() {
+    this.socket = new WebSocket('ws://localhost:3001');
+
+    this.socket.onopen = (event) => {
+      // NEEDED TO SEND JSON
+      this.socket.send(JSON.stringify(this.state));
+    }
+
+    this.socket.onmessage = (event) => {
+      console.log(event.data);
+    }
+
+    // this.socket.onmessage = (event) => {
+    //   console.log(event.data);
+    // }
+    
+
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
       const newMessage = { id: 3, type: 'user', user: 'Michelle', text: 'Hello there!' };
       const messages = this.state.messages.concat(newMessage)
-      console.log(messages);
+      
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ messages: messages })
