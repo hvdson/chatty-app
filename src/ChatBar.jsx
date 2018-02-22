@@ -74,6 +74,7 @@ class ChatBar extends Component {
         defaultValue={this.state.currentUser}
         // just change .onMessage to .onUsername && define methods
         onChange={this.onUsernameTextChange.bind(this)}
+        placeholder="Change username (OPTIONAL)"
         onKeyPress={this.onUsernameKeyPress.bind(this)}
         />
 

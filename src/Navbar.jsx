@@ -10,10 +10,10 @@ class Navbar extends Component {
     return (
       < nav className = "navbar" >
         <a href="/" className="navbar-brand">Chatty</a>
-        <h3>{this.props.usersOnline}</h3>
+        <span className="navbar-users-online">Users online: {this.props.usersOnline}</span>
       </nav >
     );
   }  
 }
 
-export default Navbar;
+export default Navbar

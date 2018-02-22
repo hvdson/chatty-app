@@ -11,23 +11,8 @@ class App extends Component {
     super(props);
     this.state = {
       usersOnline: '0',
-      user: 'Anon',
-      messages: [
-      {
-        id: 'sick-id-bro',
-        type: 'user',
-        text: 'Shrek is love.',
-        user: 'Dank Memes'
-      },{
-          id: 'best-id-ever',
-          type: 'user',
-          text: 'Shrek is life.',
-          user: 'lil pump'
-        }, {
-          id: 'best-id',
-          type: 'system',
-          text: 'Someone changed username idk just testing :)',
-        }]
+      user: '',
+      messages: []
     };
   }
 

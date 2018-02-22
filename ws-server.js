@@ -69,15 +69,17 @@ wss.on('connection', (ws) => {
   const usersOnline = {};
   ws.isAlive = true;
   users.addUserCount();
-  usersOnline.usersOnline = users.userCount;
-  
+  usersOnline.usersOnline = users.userCount;  
   console.log("in server " + usersOnline);
 
   wss.broadcast(JSON.stringify(usersOnline));
 
-  ws.on('pong', () => {
-    ws.isAlive = true;
-  })
+  console.log(messages.allMessages);
+  wss.broadcast(JSON.stringify(messages.allMessages));
+
+  // ws.on('pong', () => {
+  //   ws.isAlive = true;
+  // })
 
   ws.on('error', (err) => console.log(err));
   ws.on('message', (data) => {
