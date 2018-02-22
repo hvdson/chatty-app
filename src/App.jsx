@@ -10,18 +10,24 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'Anon1',
+      usersOnline: '0',
+      user: 'Anon',
       messages: [
       {
-        id: 'poop',
-        type: 'system',
-        text: 'Anon1 changed their name to nomnom.'
-      }, {
         id: 'sick-id-bro',
         type: 'user',
-        text: 'Dank memes',
-        user: 'nomnom'
-      }]
+        text: 'Shrek is love.',
+        user: 'Dank Memes'
+      },{
+          id: 'best-id-ever',
+          type: 'user',
+          text: 'Shrek is life.',
+          user: 'lil pump'
+        }, {
+          id: 'best-id',
+          type: 'system',
+          text: 'Someone changed username idk just testing :)',
+        }]
     };
   }
 
@@ -36,16 +42,33 @@ class App extends Component {
     // wait till connection
     this.socket.onopen = (event) => {
       // sends JSON to the ws-server
+      const eventData = JSON.parse(event.data)
+      const usersOnline = eventData.usersOnline;
+      console.log("Client: ", event);
       console.log('Connected to ws-server');
       // this.socket.send(JSON.stringify(this.state));
     }
 
+    // geting the data back from newMessage
     this.socket.onmessage = (event) => {
+      const eventData = JSON.parse(event.data);
+      // console.log(eventData);
 
-      const newMessages = this.state.messages.concat(JSON.parse(event.data));
-      this.setState({
-        messages: newMessages
-      });
+      if (eventData.hasOwnProperty('usersOnline')) {
+        // console.log(eventData);
+
+        const usersOnline = eventData.usersOnline
+        console.log(usersOnline);
+        this.setState({
+          usersOnline: usersOnline
+        });
+
+      } else {
+        const newMessages = this.state.messages.concat(eventData);
+        this.setState({
+          messages: newMessages,
+        });
+      }
     }
 
     console.log("componentDidMount <App />");
@@ -61,20 +84,37 @@ class App extends Component {
     }, 3000);
   }
 
-
   newMessage(messageText){
     // const newId = RandomId();
+
     const newMessageObj = {
       type: 'user',
       text: messageText,
       user: this.state.user
     }
 
-    // TODO: send to server 1st before adding to msg list
+    // will recieve the data back through this.socket.onmessage
     this.socket.send(JSON.stringify(newMessageObj));
   }
 
+  // helper function for setUsername 
+  // updates the current state with a new messsage appended
+  newSystemMessage(newUsername) {
+
+    // system message logic is handled by MessageList component
+    // don't need user property
+    const newSystemMessageObj = {
+      type: 'system',
+      text: `${this.state.user} changed their name to ${newUsername}`
+    }
+    
+    this.socket.send(JSON.stringify(newSystemMessageObj));
+    // need to pass to newMessage to send to server    
+  }
+
+  // similar to setUsername but will broadcast a system message
   setUsername(user) {
+    this.newSystemMessage(user);
     this.setState({
       user: user
     });
@@ -84,7 +124,7 @@ class App extends Component {
     console.log(this.state);
     return (
       <div>
-        <Navbar />
+        <Navbar usersOnline={this.state.usersOnline}/>
         <MessageList messages={this.state.messages} />
         <ChatBar currentUser={this.state.user} setUsername={this.setUsername.bind(this)} newMessage={this.newMessage.bind(this)}/>
       </div>

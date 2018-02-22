@@ -19,11 +19,44 @@ const wss = new SocketServer({ server });
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 
+// const messageDatabase = [];
+// let numberOfmessages = 0;
+
+// database of messages in memory
+class Messages {
+  constructor() {
+    this._messagesList = [];
+    this.saveMessage = this.saveMessage.bind(this);
+  }
+  saveMessage(message) {
+    this._messagesList.push(message);
+  }
+  get allMessages(){
+    return this._messagesList;
+  }
+}
+
+class Users {
+  constructor() {
+    this._userCount = 0;
+  }
+  addUserCount() {
+    this._userCount++;
+  }
+  subtractUserCount() {
+    this._userCount--;
+  }
+  get userCount() {
+    return this._userCount;
+  }
+}
+
+const messages = new Messages();
+const users = new Users();
 
 // Broadcast to all clients
 wss.broadcast = (data) => {
   wss.clients.forEach( (client) => {
-    console.log("sending data to all clients")
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
     }
@@ -32,21 +65,38 @@ wss.broadcast = (data) => {
 
 
 // when a new client connects
-// ws is a client (socket)
-// need to add new uuid to the newMessage
 wss.on('connection', (ws) => {
+  const usersOnline = {};
+  ws.isAlive = true;
+  users.addUserCount();
+  usersOnline.usersOnline = users.userCount;
+  
+  console.log("in server " + usersOnline);
+
+  wss.broadcast(JSON.stringify(usersOnline));
+
+  ws.on('pong', () => {
+    ws.isAlive = true;
+  })
+
   ws.on('error', (err) => console.log(err));
   ws.on('message', (data) => {
-    console.log(`Received the client data:`, data);
+    // on connection and first message of new socket
     const newMessage = JSON.parse(data);
-    console.log(newMessage);
     newMessage.id = uuid();
-    // Broadcast to everyone else.
+
+    // TODO: stores messages and displays to newly connected socket
+    messages.saveMessage(newMessage);
+
+    // added usersOnline as a key to data being broadcasted
     wss.broadcast(JSON.stringify(newMessage));
   });
 
   ws.on('close', () => {
+    ws.isAlive = false;
+    users.subtractUserCount();
     console.log('disconnected');
+    console.log("number of users connected: " + users.userCount);
   });
 
 });

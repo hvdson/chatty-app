@@ -9,8 +9,6 @@ class ChatBar extends Component {
       currentUser: this.props.currentUser
     };
 
-    // should log string of 'Anon1'    
-    console.log(this.props.currentUser);
   }
   
   // ----------------------------------------------------------------------
@@ -19,11 +17,13 @@ class ChatBar extends Component {
   // when enterkey is pressed
   onMessageKeyPress(event) {
     if (event.key === 'Enter') {
-      console.log(event.key);
-      // Enter was pressed!
-      // TODO: in App.jsx create new method newMessage to concat to react's state
-      this.props.newMessage(this.state.messageText);
-      this.setState({messageText: ''});
+      if (event.target.value) {
+        console.log(event.key);
+        // Enter was pressed!
+        // TODO: in App.jsx create new method newMessage to concat to react's state
+        this.props.newMessage(this.state.messageText);
+        this.setState({messageText: ''});
+      }
     }
   }
 
@@ -40,13 +40,22 @@ class ChatBar extends Component {
   // needed to pass a method from the superclass to this child component as a prop in order to mutate values from parent
   // data can only be changed internally by the parent class
 
+  // error handling for empty user input
+
   onUsernameKeyPress(event) {
+    // only set the username if there's value in 
+
+    // need to update send system message here!
+
     if (event.key === 'Enter') {
-      console.log(event.key);
-      // Enter was pressed!
-      // TODO: in App.jsx create new method newMessage to concat to react's state
-      this.props.setUsername(this.state.currentUser);
-      this.setState({ currentUser: '' });
+      if (event.target.value) {
+        console.log(event.key);
+        // Enter was pressed!
+        this.props.setUsername(this.state.currentUser);
+
+        //clear the text field (bound to the target obj)
+        // this.setState({ currentUser: '' });
+      }
     }
   }
 
@@ -68,9 +77,10 @@ class ChatBar extends Component {
         onKeyPress={this.onUsernameKeyPress.bind(this)}
         />
 
+
         <input 
-        value={this.state.messageText}
         className="chatbar-message" 
+        value={this.state.messageText}
         onChange={this.onMessageTextChange.bind(this)}
         placeholder="Type a message and hit ENTER"
         onKeyPress={this.onMessageKeyPress.bind(this)}
