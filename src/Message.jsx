@@ -12,9 +12,10 @@ class Message extends Component {
       this.props.imgSrc ? 
       (<div className="message container">
         <span className="message-username col-md-5" style={{color: this.props.colour}}>{this.props.message.user}</span>
-        <div className="jumbotron col-md-6">
-          <h4><a href={this.props.imgSrc}>Giphy</a></h4>
-          <img src={this.props.imgSrc} className="message-giphy"/>
+        <div className="col-md-4 message-giphy">
+          <header className="giphy-description"><a href={this.props.imgSrc}>From Giphy</a><span className="giphy-description">(app)</span></header>
+          <img src={this.props.imgSrc} className="giphy-img"/>
+          <footer></footer>
         </div>
         <span className="message-content">{this.props.message.text}</span>
       </div>) 

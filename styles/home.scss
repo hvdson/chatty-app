@@ -1,6 +1,22 @@
-h4 {
+header {
   color: rgb(71, 172, 255);
+  margin: 1.5rem;
 }
+
+footer {
+  color: rgb(183, 198, 209);
+  margin: 1.5rem;
+}
+
+.giphy-description {
+  color: rgb(150, 175, 196);
+  margin: 0.5rem;
+  font-size: 16px;
+}
+
+// h4:hover {
+//   font-style: underline;
+// }
 
 body {
   background: white;
@@ -44,7 +60,7 @@ body {
 .message-content,
 .message-username {
   overflow: hidden;
-  margin: 5px;
+  margin: 1rem;
   padding: 0 10px;
   font-size: 20px;
 }
@@ -58,13 +74,18 @@ body {
 }
 
 .message-giphy {
+  border: 1px solid rgb(168, 170, 165);
+  border-radius: 6px;
+}
+
+.giphy-img {
   border-radius: 6px;
   margin: 0 0 0 1rem;
+  max-width: 90%;
 }
 
 .navbar {
   background: rgb(96, 194, 240);
-  border-bottom: 1px solid black;
   height: 60px;
   left: 0;
   padding: 0 10px;

@@ -88,7 +88,6 @@ class ChatBar extends Component {
   
 
   render() {
-    console.log("inside <ChatBar/> bruh");
     return (
       <div className="chatbar">
         <footer className="row">
@@ -101,9 +100,8 @@ class ChatBar extends Component {
         onKeyPress={this.onUsernameKeyPress.bind(this)}
         />
 
-
         <input 
-        className="col-9 form-control-lg" 
+        className="col-9 form-control-lg"
         value={this.state.messageText}
         onChange={this.onMessageTextChange.bind(this)}
         placeholder="Type a message and hit ENTER"

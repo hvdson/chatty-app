@@ -16,10 +16,8 @@ class MessageList extends Component {
         )
       } else if (message.type === 'system') {
         return (
-          <div className="row">
-            <div key={message.id} className="col-6 alert-success system">
-              {message.text}
-            </div>
+          <div key={message.id} className="col-6 alert alert-info alert-dismissable fade show system">
+            {message.text}
           </div>
         )
       }

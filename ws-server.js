@@ -4,7 +4,7 @@ const SocketServer = WebSocket.Server;
 const uuid = require('uuid');
 const request = require('request');
 const GIPHY_API_KEY = '&api_key=a44NKEyEkE4NZuW8p1632zptW65o6nvD';
-const GIPHY_URL = 'http://api.giphy.com/v1/gifs/search?q=' // need to insert query between this and apikey
+const GIPHY_URL = 'http://api.giphy.com/v1/gifs/random?tag=' // need to insert query between this and apikey
 // const API_URL = 
 
 
@@ -96,7 +96,7 @@ wss.on('connection', (ws) => {
 
         request(giphyRequest, (err, res, body) => {
           const giphy = JSON.parse(body);
-          const gif = giphy.data[0].images.fixed_height.webp;
+          const gif = giphy.data.fixed_height_downsampled_url;
           // parts[0] = gif;
           newMessage.imgSrc = gif;
           console.log(giphy);
