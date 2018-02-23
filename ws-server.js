@@ -20,13 +20,6 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
-
-// const messageDatabase = [];
-// let numberOfmessages = 0;
-
 // database of messages in memory
 class Messages {
   constructor() {
@@ -41,6 +34,7 @@ class Messages {
   }
 }
 
+// to count number of users
 class Users {
   constructor() {
     this._userCount = 0;
@@ -68,7 +62,6 @@ wss.broadcast = (data) => {
   });
 };
 
-
 // when a new client connects
 wss.on('connection', (ws) => {
   const usersOnline = {};
@@ -94,8 +87,6 @@ wss.on('connection', (ws) => {
     let parts = newMessage.text.split(' ');
     newMessage.id = uuid();
 
-    console.log(parts);
-
     switch(parts[0]) {
       case '/giphy': {
         const searchQuery = parts.slice(1).join('-');
@@ -106,9 +97,13 @@ wss.on('connection', (ws) => {
         request(giphyRequest, (err, res, body) => {
           const giphy = JSON.parse(body);
           const gif = giphy.data[0].images.fixed_height.webp;
-          parts[0] = gif;
-          newMessage.text = parts.join(' ');
-          console.log(newMessage.text);
+          // parts[0] = gif;
+          newMessage.imgSrc = gif;
+          console.log(giphy);
+          newMessage.text = parts.slice(1).join(' ');
+          
+          console.log(newMessage);
+          
           messages.saveMessage(newMessage);
           wss.broadcast(JSON.stringify(newMessage))
           

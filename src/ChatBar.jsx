@@ -90,19 +90,20 @@ class ChatBar extends Component {
   render() {
     console.log("inside <ChatBar/> bruh");
     return (
-      <footer className="chatbar">
+      <div className="chatbar">
+        <footer className="row">
         <input 
-        className="chatbar-username"
-        defaultValue={this.state.currentUser}
+        className="col-3 form-control-lg"
+        // defaultValue={this.state.currentUser}
         // just change .onMessage to .onUsername && define methods
         onChange={this.onUsernameTextChange.bind(this)}
-        placeholder="Change username (OPTIONAL)"
+        placeholder="Change username (Default: Anon)"
         onKeyPress={this.onUsernameKeyPress.bind(this)}
         />
 
 
         <input 
-        className="chatbar-message" 
+        className="col-9 form-control-lg" 
         value={this.state.messageText}
         onChange={this.onMessageTextChange.bind(this)}
         placeholder="Type a message and hit ENTER"
@@ -110,6 +111,7 @@ class ChatBar extends Component {
         />
 
       </footer>
+      </div>
     );
   }
 }

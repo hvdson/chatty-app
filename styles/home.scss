@@ -1,5 +1,5 @@
-h1 {
-  color: tomato;
+h4 {
+  color: rgb(71, 172, 255);
 }
 
 body {
@@ -8,45 +8,37 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   margin: 70px 0;
+  -webkit-font-smoothing: antialiased;
 }
 
 .chatbar {
-  background: #7F00FF;
+  background: rgb(96, 194, 240);
   border-top: 1px solid black;
   bottom: 0;
-  display: flex;
   left: 0;
   padding: 5px;
   position: fixed;
   right: 0;
 }
 
-.chatbar-message,
-.chatbar-username {
-  border: 1px solid black;
-  display: block;
-  height: 40px;
-  line-height: 40px;
-  margin: 5px;
-  padding: 0 9px;
-}
-
-.chatbar-message {
-  flex: 8;
-}
-
-.chatbar-username {
-  flex: 2;
+.container {
+  background-color: rgb(245, 245, 245);
+  border-radius: 6px;
+  display: grid;
+  margin: 1rem auto;
 }
 
 .message {
-  display: flex;
+  display: grid;
   padding: 5px;
 }
 
-.message.system {
+.system {
+  display: grid;
   font-style: italic;
   padding: 5px 20px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .message-content,
@@ -54,19 +46,24 @@ body {
   overflow: hidden;
   margin: 5px;
   padding: 0 10px;
+  font-size: 20px;
 }
 
 .message-content {
-  flex: 8;
+  font-size: 16px;
 }
 
 .message-username {
-  flex: 2;
   font-weight: 700;
 }
 
+.message-giphy {
+  border-radius: 6px;
+  margin: 0 0 0 1rem;
+}
+
 .navbar {
-  background: #7F00FF;
+  background: rgb(96, 194, 240);
   border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -74,14 +71,16 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+  font-family: 'Baloo', cursive;
+  z-index: 99999;
 }
 
 .navbar-brand {
-  color: inherit;
+  color: rgb(223, 116, 233);
   display: block;
   float: left;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 40px;
   height: 60px;
   line-height: 60px;
   padding: 0 10px;
@@ -89,7 +88,7 @@ body {
 }
 
 .navbar-users-online {
-  color: inherit;
+  color: rgb(44, 168, 92);
   display: block;
   float: right;
   font-weight: 700;

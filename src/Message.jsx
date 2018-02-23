@@ -8,10 +8,21 @@ class Message extends Component {
 
   render() {
     return (
-      <div className="message">
-        <span className="message-username" style={{color: this.props.colour}}>{this.props.message.user}</span>
+
+      this.props.imgSrc ? 
+      (<div className="message container">
+        <span className="message-username col-md-5" style={{color: this.props.colour}}>{this.props.message.user}</span>
+        <div className="jumbotron col-md-6">
+          <h4><a href={this.props.imgSrc}>Giphy</a></h4>
+          <img src={this.props.imgSrc} className="message-giphy"/>
+        </div>
         <span className="message-content">{this.props.message.text}</span>
-      </div>
+      </div>) 
+      :
+      (<div className="message container">
+        <span className="message-username col-md-5" style={{ color: this.props.colour }}>{this.props.message.user}</span>
+        <span className="message-content">{this.props.message.text}</span>
+      </div>)
     );
   }
 }

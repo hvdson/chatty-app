@@ -23,7 +23,7 @@ class App extends Component {
     super(props);
     this.state = {
       usersOnline: '0',
-      user: 'Shrek',
+      user: 'Anon',
       messages: [],
       colour: newColour()
     };
@@ -70,15 +70,12 @@ class App extends Component {
       }
     }
 
-    console.log("componentDidMount <App />");
+    // Simulate incoming message
     setTimeout(() => {
       console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
       const newMessage = { id: 'blahblah-test-id', type: 'user', user: 'SmarterChild', text: 'I am the master chatbot', colour: 'red' };
       const messages = this.state.messages.concat(newMessage)
 
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ messages: messages })
     }, 300);
   }
@@ -102,15 +99,12 @@ class App extends Component {
   // updates the current state with a new messsage appended
   newSystemMessage(newUsername) {
 
-    // system message logic is handled by MessageList component
-    // don't need user property
     const newSystemMessageObj = {
       type: 'system',
       text: `${this.state.user} changed their name to ${newUsername}`
     }
     
     this.socket.send(JSON.stringify(newSystemMessageObj));
-    // need to pass to newMessage to send to server    
   }
 
   // similar to setUsername but will broadcast a system message
