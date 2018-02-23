@@ -8,7 +8,7 @@ class ChatBar extends Component {
       messageText: '',
       currentUser: this.props.currentUser
     };
-
+    this.commands = ['/giphy'];
   }
   
   // ----------------------------------------------------------------------
@@ -17,12 +17,34 @@ class ChatBar extends Component {
   // when enterkey is pressed
   onMessageKeyPress(event) {
     if (event.key === 'Enter') {
-      if (event.target.value) {
+
+      let messageContent = event.target.value;
+
+      // if there's value in content
+      if (messageContent) {
+
+        // for handling only valid commands to be sent to server
+        // we don't want ppl to be sending something potentially malicious
+        if (messageContent[0] == '/') {
+          // extracting the command from the messageContent
+          
+          let messageParts = messageContent.split(' ');
+
+          if (this.commands.indexOf(messageParts[0]) !== -1) {
+            this.props.newMessage(this.state.messageText);
+            this.setState({ messageText: '' });
+
+          } else {
+            console.log('invalid');
+          }
+
+        } else {
         console.log(event.key);
         // Enter was pressed!
         // TODO: in App.jsx create new method newMessage to concat to react's state
         this.props.newMessage(this.state.messageText);
         this.setState({messageText: ''});
+        }
       }
     }
   }
@@ -93,38 +115,3 @@ class ChatBar extends Component {
 }
 
 export default ChatBar;
-
-
-// <footer className="chatbar">
-//   <input className="chatbar-username" placeholder="Your Name (Optional)" />
-//   <input className="chatbar-message" placeholder="Type a message and hit ENTER" />
-// </footer>
-
-// TODO:
-
-// Anon1 changed their name to nomnom.
-//   nomnom
-// Dank memes
-// Anon1
-// Anon1
-// o shit waddup
-// is this bad
-// y
-// is this bad
-// wait
-// is this bad
-// username change should display a system message for different state
-// is this bad
-// and onEnter should affect both username input and message input
-// is this bad
-// b / c on enter left side doesn't change if you have a different val on both sides
-// is this bad
-// since the username input field is handled by a different method
-// is this bad
-// like this below:
-// is this bad
-//   * cleared the name field and just typing into message bar *
-//     is this bad
-//       * should change back to anon maybe ? or just clear the username field to blank *
-// * now i pressed enter and message field is blank - this text is in the username field *
-// * cleared the username field and now typing msg  - username is now defined as ^ *

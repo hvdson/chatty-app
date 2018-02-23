@@ -5,16 +5,30 @@ import ChatBar from './ChatBar.jsx';
 const RandomId = require('./RandomId.js');
 // const WebSocket = require('ws');
 
+const newColour = function colour() {
+
+  function getRandomIntInclusive(max) {
+    const min = 0;
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+  }
+
+  const hexVals = ['#f0afdd', '#e3b67e', '#b5f69b', '#94eed5', 'purple'];
+  return hexVals[(getRandomIntInclusive(hexVals.length - 1))];
+}
+
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       usersOnline: '0',
-      user: '',
-      messages: []
+      user: 'Shrek',
+      messages: [],
+      colour: newColour()
     };
   }
+
 
   // Called after the component was rendered and it was attached to the DOM.
   // This is a good place to make AJAX requests or setTimeout.
@@ -60,22 +74,24 @@ class App extends Component {
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
-      const newMessage = { id: 'blahblah-test-id', type: 'user', user: 'Michelle', text: 'Hello there!' };
+      const newMessage = { id: 'blahblah-test-id', type: 'user', user: 'SmarterChild', text: 'I am the master chatbot', colour: 'red' };
       const messages = this.state.messages.concat(newMessage)
 
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ messages: messages })
-    }, 3000);
+    }, 300);
   }
 
   newMessage(messageText){
     // const newId = RandomId();
+    console.log(this.state.colour);
 
     const newMessageObj = {
       type: 'user',
       text: messageText,
-      user: this.state.user
+      user: this.state.user,
+      colour: this.state.colour
     }
 
     // will recieve the data back through this.socket.onmessage
@@ -106,11 +122,11 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <div>
         <Navbar usersOnline={this.state.usersOnline}/>
-        <MessageList messages={this.state.messages} />
+        <MessageList messages={this.state.messages}/>
         <ChatBar currentUser={this.state.user} setUsername={this.setUsername.bind(this)} newMessage={this.newMessage.bind(this)}/>
       </div>
     ); 
