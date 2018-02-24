@@ -2,20 +2,13 @@ import React, {Component} from 'react';
 import Navbar from './Navbar.jsx';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
-const RandomId = require('./RandomId.js');
-// const WebSocket = require('ws');
+const RandomHexColor = require('random-hex-color');
 
-const newColour = function colour() {
+// const newColour = function colour() {
 
-  function getRandomIntInclusive(max) {
-    const min = 0;
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
-  }
-
-  const hexVals = ['#f0afdd', '#e3b67e', '#b5f69b', '#94eed5', 'purple'];
-  return hexVals[(getRandomIntInclusive(hexVals.length - 1))];
-}
+//   const hexVals = RandomHexColor();
+//   return hexVals[(getRandomIntInclusive(hexVals.length - 1))];
+// }
 
 class App extends Component {
 
@@ -25,7 +18,7 @@ class App extends Component {
       usersOnline: '0',
       user: 'Anon',
       messages: [],
-      colour: newColour()
+      colour: RandomHexColor()
     };
   }
 
@@ -37,24 +30,20 @@ class App extends Component {
     // don't need to require - b/c browser has already
     this.socket = new WebSocket('ws://localhost:3001');
 
-    // Similar to wss.on('connection')
     // wait till connection
     this.socket.onopen = (event) => {
       // sends JSON to the ws-server
-      const eventData = JSON.parse(event.data)
+      const eventData = JSON.parse(event.data);
       const usersOnline = eventData.usersOnline;
       console.log("Client: ", event);
       console.log('Connected to ws-server');
-      // this.socket.send(JSON.stringify(this.state));
     }
 
     // geting the data back from newMessage
     this.socket.onmessage = (event) => {
       const eventData = JSON.parse(event.data);
-      // console.log(eventData);
 
       if (eventData.hasOwnProperty('usersOnline')) {
-        // console.log(eventData);
 
         const usersOnline = eventData.usersOnline
         console.log(usersOnline);
@@ -115,8 +104,9 @@ class App extends Component {
     });
   }
 
+// TODO: re-remember why "70px 0 100px" does what it does
+
   render() {
-    // console.log(this.state);
     return (
       <div>
         <Navbar usersOnline={this.state.usersOnline}/>

@@ -12,14 +12,14 @@ class MessageList extends Component {
       if (message.type === 'user') {
         // need to pass data flow to Message.jsx now
         return (
-          <Message key={message.id} message={message} colour={message.colour} imgSrc={message.imgSrc}/>
-        )
+          <Message key={message.id} message={message} colour={message.colour}/>
+        );
       } else if (message.type === 'system') {
         return (
           <div key={message.id} className="col-6 alert alert-info alert-dismissable fade show system">
             {message.text}
           </div>
-        )
+        );
       }
     });
 

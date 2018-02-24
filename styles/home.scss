@@ -23,7 +23,7 @@ body {
   color: black;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-  margin: 70px 0;
+  margin: 70px 0 100px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -45,6 +45,11 @@ body {
 }
 
 .message {
+  display: grid;
+  padding: 5px;
+}
+
+.messages {
   display: grid;
   padding: 5px;
 }

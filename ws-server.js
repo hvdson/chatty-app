@@ -3,9 +3,13 @@ const WebSocket = require('ws')
 const SocketServer = WebSocket.Server;
 const uuid = require('uuid');
 const request = require('request');
-const GIPHY_API_KEY = '&api_key=a44NKEyEkE4NZuW8p1632zptW65o6nvD';
-const GIPHY_URL = 'http://api.giphy.com/v1/gifs/random?tag=' // need to insert query between this and apikey
-// const API_URL = 
+const GIPHY_API_KEY = '&api_key=C6d4LOFZVmapCLXNuTbAEiEu7NRrnj0N';
+// need to insert query between this and apikey
+// const GIPHY_URL = 'http://api.giphy.com/v1/gifs/random?tag=';
+// need to insert query between this and apikey
+const GIPHY_URL = 'http://api.giphy.com/v1/gifs/search?q=';
+const GIPHY_TAGS = '&limit=25&offset=0&rating=G&lang=en';
+
 
 
 // Set the port to 3001
@@ -79,7 +83,6 @@ wss.on('connection', (ws) => {
 
   // going to be handling giphy command in here
   ws.on('message', (data) => {
-
     // on connection and first message of new socket
     const newMessage = JSON.parse(data);
 
@@ -90,17 +93,25 @@ wss.on('connection', (ws) => {
     switch(parts[0]) {
       case '/giphy': {
         const searchQuery = parts.slice(1).join('-');
-        const giphyRequest = GIPHY_URL + searchQuery + GIPHY_API_KEY;
+        // const giphyRequest = GIPHY_URL + searchQuery + GIPHY_API_KEY;
+        const giphyRequest = GIPHY_URL + searchQuery + GIPHY_API_KEY + GIPHY_TAGS;
         
         // todo: get the data from the api using searchQuery
 
         request(giphyRequest, (err, res, body) => {
-          const giphy = JSON.parse(body);
-          const gif = giphy.data.fixed_height_downsampled_url;
-          // parts[0] = gif;
-          newMessage.imgSrc = gif;
-          console.log(giphy);
-          newMessage.text = parts.slice(1).join(' ');
+          let giphy = JSON.parse(body);
+
+          // const gif = giphy.data.fixed_height_downsampled_url;
+          const gifArray = giphy.data;
+          const gif = gifArray[Math.floor(Math.random() * gifArray.length)];
+
+          const gifSourceUrl = gif.embed_url.split('/');
+          const gifId = gifSourceUrl[gifSourceUrl.length - 1];
+          newMessage.gifData = { 
+            url: `https://media.giphy.com/media/${gifId}/giphy.gif`
+          };
+
+          newMessage.text = gif.title;
           
           console.log(newMessage);
           
