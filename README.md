@@ -66,9 +66,19 @@ users are able to send random gifs via giphy based on the search query through t
 ```
 
 ## Screenshots
-!["screenshot"](https://github.com/hvdson/chatty-app/tree/master/docs)
+!["screenshot"](https://github.com/hvdson/chatty-app/blob/master/docs/open.png)
 
+!["screenshot"](https://github.com/hvdson/chatty-app/blob/master/docs/changename.png)
 
+!["screenshot"](https://github.com/hvdson/chatty-app/blob/master/docs/changenamereply.png)
+
+!["screenshot"](https://github.com/hvdson/chatty-app/blob/master/docs/gipny-search.png)
+
+!["screenshot"](https://github.com/hvdson/chatty-app/blob/master/docs/giphy-appear.png)
+
+!["screenshot"](https://github.com/hvdson/chatty-app/blob/master/docs/another-gif.png)
+
+!["screenshot"](https://github.com/hvdson/chatty-app/blob/master/docs/close.png)
 
 
 
