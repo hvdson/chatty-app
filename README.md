@@ -66,7 +66,7 @@ users are able to send random gifs via giphy based on the search query through t
 ```
 
 ## Screenshots
-!["screenshot"]()
+!["screenshot"](https://github.com/hvdson/chatty-app/tree/master/docs)
 
 
 
