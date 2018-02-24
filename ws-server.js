@@ -129,10 +129,13 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('close', () => {
+    const usersOnline = {};
     ws.isAlive = false;
     users.subtractUserCount();
     console.log('disconnected');
     console.log("number of users connected: " + users.userCount);
+    usersOnline.usersOnline = users.userCount;
+    wss.broadcast(JSON.stringify(usersOnline))
   });
 
 });
