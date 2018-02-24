@@ -4,13 +4,12 @@ const SocketServer = WebSocket.Server;
 const uuid = require('uuid');
 const request = require('request');
 const GIPHY_API_KEY = '&api_key=C6d4LOFZVmapCLXNuTbAEiEu7NRrnj0N';
-// need to insert query between this and apikey
+
+// giphy api was down had to change to search query
 // const GIPHY_URL = 'http://api.giphy.com/v1/gifs/random?tag=';
-// need to insert query between this and apikey
+
 const GIPHY_URL = 'http://api.giphy.com/v1/gifs/search?q=';
 const GIPHY_TAGS = '&limit=25&offset=0&rating=G&lang=en';
-
-
 
 // Set the port to 3001
 const PORT = 3001;

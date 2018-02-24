@@ -4,12 +4,6 @@ import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 const RandomHexColor = require('random-hex-color');
 
-// const newColour = function colour() {
-
-//   const hexVals = RandomHexColor();
-//   return hexVals[(getRandomIntInclusive(hexVals.length - 1))];
-// }
-
 class App extends Component {
 
   constructor(props) {
@@ -21,7 +15,6 @@ class App extends Component {
       colour: RandomHexColor()
     };
   }
-
 
   // Called after the component was rendered and it was attached to the DOM.
   // This is a good place to make AJAX requests or setTimeout.
@@ -70,8 +63,6 @@ class App extends Component {
   }
 
   newMessage(messageText){
-    // const newId = RandomId();
-    console.log(this.state.colour);
 
     const newMessageObj = {
       type: 'user',
